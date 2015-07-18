@@ -32,6 +32,7 @@
 
 /**************** Edit the following according to your database settings ******************/
 
+// Override these in dbcreds.inc which is created when you first run this
 $db_server = 'localhost';
 $db_user="db_user";
 $db_password="password";
@@ -43,6 +44,17 @@ $table_names = array();
 
 
 /**************** You don't have to modify the below code **********************************/
+
+$db_creds_override='dbcreds.inc';
+if(file_exists($db_creds_override)){
+	include $db_creds_override;
+}else{
+
+	$inc="<?php\n\n\$db_server='localhost';\n
+\$db_user='db_user';\n\$db_password='password';\n\$db_name='db1';\n";
+
+	file_put_contents($db_creds_override, $inc, LOCK_EX);
+}
 
 mysql_connect($db_server, $db_user, $db_password) or die(mysql_error());
 mysql_select_db($db_name);
